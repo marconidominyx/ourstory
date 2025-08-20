@@ -1,111 +1,123 @@
 // Minimal and elegant timeline functionality
 document.addEventListener("DOMContentLoaded", function () {
-	// Timeline reveal animation on scroll
+	// Responsive timeline reveal animation
 	const timelineItems = document.querySelectorAll(".timeline-item");
 
-	const observerOptions = {
-		threshold: 0.2,
-		rootMargin: "0px 0px -50px 0px",
-	};
+	// Check if device supports reduced motion
+	const prefersReducedMotion = window.matchMedia(
+		"(prefers-reduced-motion: reduce)"
+	).matches;
 
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
-				entry.target.classList.add("visible");
-			}
+	if (!prefersReducedMotion) {
+		// Create intersection observer for smooth animations
+		const observerOptions = {
+			threshold: 0.1,
+			rootMargin: "0px 0px -50px 0px",
+		};
+
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					// Add staggered animation based on device type
+					const isMobile = window.innerWidth <= 767;
+					const animationClass = isMobile
+						? "mobile-visible"
+						: "desktop-visible";
+
+					entry.target.classList.add(animationClass);
+
+					// Add animation delay for staggered effect
+					const index = Array.from(timelineItems).indexOf(entry.target);
+					entry.target.style.animationDelay = `${index * 0.1}s`;
+				}
+			});
+		}, observerOptions);
+
+		timelineItems.forEach((item) => {
+			observer.observe(item);
 		});
-	}, observerOptions);
+	} else {
+		// For users who prefer reduced motion, show all items immediately
+		timelineItems.forEach((item) => {
+			item.style.opacity = "1";
+			item.style.transform = "translateY(0)";
+		});
+	}
 
-	timelineItems.forEach((item) => {
-		observer.observe(item);
-	});
+	// Responsive hover effects for desktop
+	const isDesktop = window.innerWidth >= 768;
 
-	// Smooth scroll for navigation
-	const scrollIndicator = document.querySelector(".scroll-indicator");
-	if (scrollIndicator) {
-		scrollIndicator.addEventListener("click", () => {
-			const timeline = document.querySelector(".timeline");
-			timeline.scrollIntoView({
-				behavior: "smooth",
-				block: "start",
+	if (isDesktop) {
+		// Enhanced hover effects for desktop
+		timelineItems.forEach((item) => {
+			item.addEventListener("mouseenter", () => {
+				item.style.transform = "translateY(-8px)";
+			});
+
+			item.addEventListener("mouseleave", () => {
+				item.style.transform = "translateY(0)";
 			});
 		});
 	}
 
-	// Simple hover effects for timeline markers
-	const markers = document.querySelectorAll(".marker-icon");
-	markers.forEach((marker) => {
-		marker.addEventListener("mouseenter", function () {
-			this.style.transform = "scale(1.05) translateX(-50%)";
-		});
+	// Touch device optimizations
+	if ("ontouchstart" in window) {
+		// Add touch feedback for mobile devices
+		timelineItems.forEach((item) => {
+			item.addEventListener("touchstart", () => {
+				item.style.transform = "scale(0.98)";
+			});
 
-		marker.addEventListener("mouseleave", function () {
-			this.style.transform = "scale(1) translateX(-50%)";
+			item.addEventListener("touchend", () => {
+				item.style.transform = "scale(1)";
+			});
 		});
-	});
+	}
 
 	// Simple click effect for timeline content
-	const timelineContent = document.querySelectorAll(".timeline-content");
-	timelineContent.forEach((content) => {
-		content.addEventListener("click", function () {
-			this.style.transform = "scale(0.99)";
+	const timelineContents = document.querySelectorAll(".timeline-content");
+	timelineContents.forEach((content) => {
+		content.addEventListener("click", () => {
+			content.style.transform = "scale(0.98)";
 			setTimeout(() => {
-				this.style.transform = "scale(1)";
+				content.style.transform = "scale(1)";
 			}, 150);
 		});
 	});
 
-	// Keyboard navigation for accessibility
+	// Keyboard navigation - natural scrolling
 	document.addEventListener("keydown", (e) => {
-		if (e.key === "ArrowDown") {
-			e.preventDefault();
-			const currentItem = document.querySelector(".timeline-item.visible");
-			if (currentItem && currentItem.nextElementSibling) {
-				currentItem.nextElementSibling.scrollIntoView({ behavior: "smooth" });
-			}
-		} else if (e.key === "ArrowUp") {
-			e.preventDefault();
-			const currentItem = document.querySelector(".timeline-item.visible");
-			if (currentItem && currentItem.previousElementSibling) {
-				currentItem.previousElementSibling.scrollIntoView({
-					behavior: "smooth",
-				});
-			}
+		if (e.key === "ArrowUp") {
+			window.scrollBy(0, -100);
+		} else if (e.key === "ArrowDown") {
+			window.scrollBy(0, 100);
 		}
 	});
 
-	// Touch gestures for mobile
+	// Enhanced touch gestures for mobile
 	let touchStartY = 0;
 	let touchEndY = 0;
 
 	document.addEventListener("touchstart", (e) => {
-		touchStartY = e.touches[0].clientY;
+		touchStartY = e.changedTouches[0].screenY;
 	});
 
 	document.addEventListener("touchend", (e) => {
-		touchEndY = e.changedTouches[0].clientY;
+		touchEndY = e.changedTouches[0].screenY;
 		handleSwipe();
 	});
 
 	function handleSwipe() {
-		const swipeThreshold = 60;
+		const swipeThreshold = 50;
 		const diff = touchStartY - touchEndY;
 
 		if (Math.abs(diff) > swipeThreshold) {
 			if (diff > 0) {
-				// Swipe up - go to next timeline item
-				const currentItem = document.querySelector(".timeline-item.visible");
-				if (currentItem && currentItem.nextElementSibling) {
-					currentItem.nextElementSibling.scrollIntoView({ behavior: "smooth" });
-				}
+				// Swipe up
+				window.scrollBy(0, 200);
 			} else {
-				// Swipe down - go to previous timeline item
-				const currentItem = document.querySelector(".timeline-item.visible");
-				if (currentItem && currentItem.previousElementSibling) {
-					currentItem.previousElementSibling.scrollIntoView({
-						behavior: "smooth",
-					});
-				}
+				// Swipe down
+				window.scrollBy(0, -200);
 			}
 		}
 	}
@@ -122,28 +134,43 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
-	// Smooth scroll to top when button is clicked
+	// Natural scroll to top when button is clicked
 	scrollToTopBtn.addEventListener("click", () => {
 		window.scrollTo({
 			top: 0,
-			behavior: "smooth",
+			behavior: "auto",
 		});
 	});
 
-	// Enhanced scroll behavior for better performance
-	let ticking = false;
-
-	function updateScroll() {
-		ticking = false;
-		// Any scroll-based animations can go here
+	// Scroll indicator click - natural scrolling
+	const scrollIndicator = document.querySelector(".scroll-indicator");
+	if (scrollIndicator) {
+		scrollIndicator.addEventListener("click", () => {
+			const timeline = document.querySelector(".timeline");
+			if (timeline) {
+				timeline.scrollIntoView({ behavior: "auto" });
+			}
+		});
 	}
 
-	window.addEventListener("scroll", () => {
-		if (!ticking) {
-			requestAnimationFrame(updateScroll);
-			ticking = true;
-		}
+	// Responsive performance optimization
+	let resizeTimeout;
+	window.addEventListener("resize", () => {
+		clearTimeout(resizeTimeout);
+		resizeTimeout = setTimeout(() => {
+			// Recalculate responsive elements on resize
+			const isMobile = window.innerWidth <= 767;
+			if (isMobile) {
+				document.body.classList.add("mobile-view");
+			} else {
+				document.body.classList.remove("mobile-view");
+			}
+		}, 250);
 	});
 
-	console.log("✨ Our Story Timeline loaded with minimal elegance! 💕");
+	// Initialize responsive state
+	const isMobile = window.innerWidth <= 767;
+	if (isMobile) {
+		document.body.classList.add("mobile-view");
+	}
 });
