@@ -387,13 +387,13 @@ body {
 
 .marker-line {
 	position: absolute;
-	top: 60px;
+	top: 66px;
 	left: 50%;
 	width: 2px;
 	height: 140px;
 	background: linear-gradient(to bottom, #7877c6, transparent);
 	transform: translateX(-50%);
-	z-index: 5;
+	z-index: 3;
 }
 
 /* Timeline line - ensure it's behind markers */
@@ -1569,9 +1569,10 @@ body {
 	}
 
 	.marker-line {
-		top: 56px;
+		top: 62px;
 		left: 32px;
 		height: 120px;
+		z-index: 3;
 	}
 
 	.timeline-content {
@@ -1676,9 +1677,10 @@ body {
 	}
 
 	.marker-line {
-		top: 48px;
+		top: 54px;
 		left: 24px;
 		height: 100px;
+		z-index: 3;
 	}
 
 	.timeline-content {
