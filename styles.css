@@ -315,7 +315,7 @@ body {
 /* Timeline item animations - Beautiful and non-intrusive */
 .timeline-item {
 	position: relative;
-	margin-bottom: 3rem;
+	margin-bottom: 5rem;
 	opacity: 1;
 	transform: translateY(0);
 	transition: all 0.3s ease;
@@ -387,7 +387,7 @@ body {
 
 .marker-line {
 	position: absolute;
-	top: 56px;
+	top: 60px;
 	left: 50%;
 	width: 2px;
 	height: 140px;
@@ -414,6 +414,11 @@ body {
 	);
 	transform: translateX(-50%);
 	z-index: 1;
+}
+
+/* Ensure last timeline item doesn't have a line extending too far */
+.timeline-item:last-child .marker-line {
+	height: 80px;
 }
 
 .timeline-content {
@@ -1558,6 +1563,15 @@ body {
 	.marker-icon {
 		left: 2px;
 		z-index: 20;
+		width: 56px;
+		height: 56px;
+		font-size: 1.25rem;
+	}
+
+	.marker-line {
+		top: 56px;
+		left: 32px;
+		height: 120px;
 	}
 
 	.timeline-content {
@@ -1659,6 +1673,12 @@ body {
 		font-size: 1.25rem;
 		left: 0px;
 		z-index: 20;
+	}
+
+	.marker-line {
+		top: 48px;
+		left: 24px;
+		height: 100px;
 	}
 
 	.timeline-content {
