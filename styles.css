@@ -9,8 +9,8 @@
 html,
 body {
 	scroll-behavior: auto;
-	-webkit-overflow-scrolling: touch;
-	overflow-x: hidden;
+	-webkit-overflow-scrolling: auto;
+	overflow-x: visible;
 	scroll-padding: 0;
 	scroll-margin: 0;
 }
@@ -35,7 +35,7 @@ body {
 	line-height: 1.6;
 	color: #e2e8f0;
 	background: #0a0a0a;
-	overflow-x: hidden;
+	overflow-x: visible;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -1985,11 +1985,9 @@ body {
 @keyframes mobileSlideIn {
 	0% {
 		opacity: 0;
-		transform: translateY(20px);
 	}
 	100% {
 		opacity: 1;
-		transform: translateY(0);
 	}
 }
 
@@ -2008,6 +2006,36 @@ body {
 
 .mobile-view .timeline-highlight {
 	padding: 1.5rem;
+}
+
+/* Mobile Scroll Optimizations */
+@media (max-width: 767px) {
+	html,
+	body {
+		-webkit-overflow-scrolling: auto;
+		overflow-x: visible;
+		overflow-y: visible;
+		scroll-behavior: auto;
+		position: static;
+	}
+
+	.timeline-item {
+		will-change: auto;
+		transform: none;
+		position: relative;
+	}
+
+	.timeline-item.mobile-visible {
+		transform: none !important;
+		animation: none;
+		opacity: 1 !important;
+	}
+
+	/* Ensure smooth scrolling on mobile */
+	* {
+		-webkit-overflow-scrolling: auto;
+		scroll-behavior: auto;
+	}
 }
 
 /* Container Layout */

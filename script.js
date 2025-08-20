@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
-	// Responsive hover effects for desktop
+	// Responsive hover effects for desktop only
 	const isDesktop = window.innerWidth >= 768;
 
 	if (isDesktop) {
@@ -58,19 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				item.style.transform = "translateY(0)";
 			});
 		});
-	}
-
-	// Touch device optimizations
-	if ("ontouchstart" in window) {
-		// Add touch feedback for mobile devices
+	} else {
+		// On mobile, ensure no transform animations that could interfere with scrolling
 		timelineItems.forEach((item) => {
-			item.addEventListener("touchstart", () => {
-				item.style.transform = "scale(0.98)";
-			});
-
-			item.addEventListener("touchend", () => {
-				item.style.transform = "scale(1)";
-			});
+			item.style.transform = "none";
 		});
 	}
 
@@ -84,43 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			}, 150);
 		});
 	});
-
-	// Keyboard navigation - natural scrolling
-	document.addEventListener("keydown", (e) => {
-		if (e.key === "ArrowUp") {
-			window.scrollBy(0, -100);
-		} else if (e.key === "ArrowDown") {
-			window.scrollBy(0, 100);
-		}
-	});
-
-	// Enhanced touch gestures for mobile
-	let touchStartY = 0;
-	let touchEndY = 0;
-
-	document.addEventListener("touchstart", (e) => {
-		touchStartY = e.changedTouches[0].screenY;
-	});
-
-	document.addEventListener("touchend", (e) => {
-		touchEndY = e.changedTouches[0].screenY;
-		handleSwipe();
-	});
-
-	function handleSwipe() {
-		const swipeThreshold = 50;
-		const diff = touchStartY - touchEndY;
-
-		if (Math.abs(diff) > swipeThreshold) {
-			if (diff > 0) {
-				// Swipe up
-				window.scrollBy(0, 200);
-			} else {
-				// Swipe down
-				window.scrollBy(0, -200);
-			}
-		}
-	}
 
 	// Scroll to Top Button Functionality
 	const scrollToTopBtn = document.getElementById("scroll-to-top");
