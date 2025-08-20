@@ -1556,7 +1556,7 @@ body {
 	}
 
 	.marker-icon {
-		left: -30px;
+		left: 2px;
 		z-index: 20;
 	}
 
@@ -1657,7 +1657,7 @@ body {
 		width: 48px;
 		height: 48px;
 		font-size: 1.25rem;
-		left: -24px;
+		left: 0px;
 		z-index: 20;
 	}
 
@@ -2077,75 +2077,5 @@ body {
 	50% {
 		transform: scale(1.1);
 		opacity: 0.4;
-	}
-}
-
-/* Responsive z-index fixes for markers */
-@media (min-width: 1200px) {
-	.timeline-marker {
-		position: absolute;
-		left: 50%;
-		top: 0;
-		transform: translateX(-50%);
-		z-index: 15;
-	}
-
-	.marker-icon {
-		z-index: 20;
-	}
-}
-
-@media (min-width: 992px) and (max-width: 1199px) {
-	.timeline-marker {
-		position: absolute;
-		left: 50%;
-		top: 0;
-		transform: translateX(-50%);
-		z-index: 15;
-	}
-
-	.marker-icon {
-		z-index: 20;
-	}
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-	.timeline-marker {
-		position: absolute;
-		left: 50%;
-		top: 0;
-		transform: translateX(-50%);
-		z-index: 15;
-	}
-
-	.marker-icon {
-		z-index: 20;
-	}
-}
-
-@media (max-width: 767px) {
-	.timeline-marker {
-		left: 32px;
-		z-index: 15;
-	}
-
-	.marker-icon {
-		left: -30px;
-		z-index: 20;
-	}
-}
-
-@media (max-width: 480px) {
-	.timeline-marker {
-		left: 24px;
-		z-index: 15;
-	}
-
-	.marker-icon {
-		width: 48px;
-		height: 48px;
-		font-size: 1.25rem;
-		left: -24px;
-		z-index: 20;
 	}
 }
