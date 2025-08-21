@@ -2101,3 +2101,88 @@ body {
 		opacity: 0.4;
 	}
 }
+
+/* Dedication Section */
+.dedication {
+	background: linear-gradient(
+		135deg,
+		#0a0a0a 0%,
+		#1a1a2e 25%,
+		#16213e 50%,
+		#0f3460 75%,
+		#533483 100%
+	);
+	padding: 6rem 2rem;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+}
+
+.dedication::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: radial-gradient(
+		ellipse at 40% 60%,
+		rgba(120, 119, 198, 0.15) 0%,
+		transparent 50%
+	);
+	animation: quoteGlow 10s ease-in-out infinite alternate;
+}
+
+.dedication::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(
+		45deg,
+		transparent 0%,
+		rgba(167, 139, 250, 0.08) 50%,
+		transparent 100%
+	);
+	animation: quoteShimmer 15s linear infinite;
+}
+
+.dedication-container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 0 2rem;
+	position: relative;
+	z-index: 2;
+}
+
+.dedication-title {
+	font-family: "Playfair Display", serif;
+	font-size: clamp(2rem, 5vw, 3rem);
+	font-weight: 700;
+	color: #ffffff;
+	margin-bottom: 1rem;
+	letter-spacing: -0.01em;
+	text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dedication-text {
+	font-size: clamp(1rem, 2.5vw, 1.25rem);
+	color: #e2e8f0;
+	line-height: 1.8;
+	opacity: 0.95;
+}
+
+/* Responsive tweaks for dedication */
+@media (max-width: 767px) {
+	.dedication {
+		padding: 4rem 1.25rem;
+	}
+	.dedication-title {
+		font-size: clamp(1.75rem, 7vw, 2.25rem);
+	}
+	.dedication-text {
+		font-size: 1rem;
+	}
+}
